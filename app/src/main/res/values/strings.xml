@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">WoWToken</string>
+
+    <string name="action_about">About</string>
+    <string name="provided_by">Data provided by:</string>
+    <string name="blizzard_api">Blizzard API</string>
+
+    <string name="US_tab">US</string>
+    <string name="EU_tab">EU</string>
+    <string name="CN_tab">CN</string>
+    <string name="TW_tab">TW</string>
+    <string name="KR_tab">KR</string>
+
+    <string name="na">NA</string>
+    <string name="north_america">North America</string>
+    <string name="na_includes">Includes: United States, Oceanic, Latin America, Brazil</string>
+    <string name="eu">EU</string>
+    <string name="europe">Europe</string>
+    <string name="eu_includes">Includes: United Kingdom, Germany, France, Spain, Russia, Italy</string>
+    <string name="cn">CN</string>
+    <string name="china">China</string>
+    <string name="tw">TW</string>
+    <string name="taiwan">Taiwan</string>
+    <string name="kr">KR</string>
+    <string name="korea">Korea</string>
+
+    <string name="default_region">Azeroth</string>
+    <string name="default_price">9,001g</string>
+    <string name="high_price">24Hr High</string>
+    <string name="low_price">24Hr Low</string>
+    <string name="last_update">Last Updated:</string>
+    <string name="default_date">1/1/70</string>
+    <string name="default_time">00:00 GMT</string>
+</resources>
