@@ -9,10 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.migs.wowtokenprice.R;
+import com.migs.wowtokenprice.api.model.WoWTokenAPI;
+import com.migs.wowtokenprice.api.model.WoWTokenResponse;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -59,6 +64,8 @@ public class NAFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
 
+//        getToken();
+
         priceLow.setText("NorthAmerica");
 
         return rootView;
@@ -68,6 +75,20 @@ public class NAFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public void getToken() {
+        WoWTokenAPI.Factory.getInstance().getWoWToken().enqueue(new Callback<WoWTokenResponse>() {
+            @Override
+            public void onResponse(Call<WoWTokenResponse> call, Response<WoWTokenResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<WoWTokenResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 }
