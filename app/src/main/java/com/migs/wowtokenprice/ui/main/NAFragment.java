@@ -66,7 +66,7 @@ public class NAFragment extends Fragment {
 
 //        getToken();
 
-        priceLow.setText("NorthAmerica");
+        region.setText("North America");
 
         return rootView;
     }
