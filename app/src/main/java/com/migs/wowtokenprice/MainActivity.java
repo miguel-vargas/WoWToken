@@ -2,6 +2,7 @@ package com.migs.wowtokenprice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,10 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.migs.wowtokenprice.api.model.AuthAPI;
+import com.migs.wowtokenprice.api.model.AuthResponse;
 import com.migs.wowtokenprice.ui.main.AboutActivity;
 import com.migs.wowtokenprice.ui.main.RegionPagerAdapter;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String WOW_TOKEN_PREFERENCES = "WoWTokenPreferences";
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String EXPIRES_IN = "expires_in";
+
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +67,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        sharedpreferences = getSharedPreferences(WOW_TOKEN_PREFERENCES, Context.MODE_PRIVATE);
+
+        // check if access token is there and
+        if (sharedpreferences.contains(EXPIRES_IN)) {
+            boolean tokenExpired = true;
+
+            if (tokenExpired) {
+                getAuthToken();
+            }
+        } else {
+            getAuthToken();
+        }
+
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
@@ -70,5 +101,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getAuthToken() {
+        AuthAPI.Factory.getInstance().getAuth("client_credentials").enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.body() != null) {
+                    String accessToken = response.body().getAccess_token();
+                    int expiresIn = response.body().getExpires_in();
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                    editor.putString(ACCESS_TOKEN, accessToken);
+                    editor.putInt(EXPIRES_IN, expiresIn);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),
+                        "Error: WoW Token could not authenticate with Blizzard API", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
